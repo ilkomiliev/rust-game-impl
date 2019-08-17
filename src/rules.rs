@@ -1,11 +1,22 @@
+/// This is the main interface for handling different rules in our game.
 pub trait GameRule {
 
+    /// 
+    /// Implementation of the rule.
+    /// Takes the current position in the game and returns the 
+    /// calculated new position.
+    /// 
     fn apply_rule(&self, idx: usize) -> usize;
 
+    ///
+    /// This methods marks the rule as interactive (needs interaction from the player) 
+    /// or non-interactive. The latter can be handled automatically, the former must stop
+    /// the current move and continue after the interaction has been completed
+    /// 
     fn is_interactive(&self) -> bool;
 }
 
-/// Simple move - if the moves is negative it is a backwards move
+/// Simple move - if the moves parameter is negative it is a backwards move.
 pub struct MoveRule {
     moves: i32, // negative means backwards
     is_interactive: bool,
@@ -13,6 +24,24 @@ pub struct MoveRule {
 
 impl MoveRule {
 
+    /// 
+    /// Creates a MoveRule initializing it with the number of moves the player
+    /// must perform.
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let rule = MoveRule::new(5);
+    /// assert_eq!(rule.apply_rule(3), 8);
+    /// ```
+    /// 
+    /// Or backwards:
+    /// 
+    /// ```
+    /// let rule = MoveRule::new(-5);
+    /// assert_eq!(rule.apply_rule(8), 3);
+    /// ```
+    /// 
     pub fn new(moves: i32) -> MoveRule {
         MoveRule {
             moves: moves,
@@ -63,14 +92,12 @@ impl GameRule for MoveToStartRule {
 
 pub struct SwapWithOtherPlayerRule {
     is_interactive: bool,
-    my_idx: usize
 }
 
 impl SwapWithOtherPlayerRule {
 
-    pub fn new(idx: usize) -> SwapWithOtherPlayerRule {
+    pub fn new() -> SwapWithOtherPlayerRule {
         SwapWithOtherPlayerRule {
-            my_idx: idx,
             is_interactive: true
         }
     } 
