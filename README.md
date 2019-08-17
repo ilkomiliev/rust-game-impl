@@ -28,4 +28,4 @@ To generate the docs and open them in the standard browser:
 cargo doc --open
 ```
 
-Additional excersices could be to implement some kind of event listenening for different events, ie high score statistics, etc.
+Additional exercises could be to implement some kind of event listenening for different events, ie high score statistics, etc.
